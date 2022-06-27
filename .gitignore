@@ -3,3 +3,5 @@
 followup.pptx
 **/*.jpg
 /...stimuli/filter1.mat
+/...stimuli/MakeCosineWindow.m
+/...stimuli/DoLogGabor.m
