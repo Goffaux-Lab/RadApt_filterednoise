@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Mar 31 15:09:05 2022
+Created on Mon Jun 27 15:47:30 2022
 
 @author: Pauline + Alexia
 
-Experiment: Radial adaptation: Gratings
+Experiment: Radial adaptation: filtered noise
 
 This is the 1st part of the experiment.
 
-This program simply measures the BASELINE RADIAL BIAS
+This program simply measures the BASELINE RADIAL BIAS with FILTERED NOISE PATCHES
 
 - 1 ecc = 15°
 
@@ -32,9 +32,9 @@ practice = 'no' #whether to do the practice (yes or no)
 print("Current working directory: {0}".format(os.getcwd()))
 
 # Change the current working directory HERE
-#cwd = os.chdir(r'C:\Users\alexi\OneDrive - UCL\Rprojects\2022_RadApt_gratings\...experiment')
-cwd = os.chdir(r'C:\Users\humanvisionlab\Documents\dossierpartageubuntu\Pauline\RadApt_gratings\...experiment')
-
+#cwd = os.chdir(r'C:\Users\alexi\OneDrive - UCL\Rprojects\RadApt_filterednoise\...experiment')
+# cwd = os.chdir(r'C:\Users\humanvisionlab\Documents\dossierpartageubuntu\Pauline\RadApt_filterednoise\...experiment')
+cmd = os.chdir(r'C:\Users\arouxsibilon\OneDrive - UCL\Rprojects\2022_RadApt_filterednoise\...experiment')
 
 print("Current working directory: {0}".format(os.getcwd()))
 cwd = format(os.getcwd())
@@ -46,7 +46,7 @@ datadir = cwd + '\data\\' #directory to save data in
 #%%#  Open dlg box, Store info about the experiment session 
 
 # Get subject's info through a dialog box
-exp_name = 'RadApt_4AFC'
+exp_name = 'Radapt_baselineRB_filterednoise'
 exp_info = {
     'subj_ID': '',
     'session':'',
@@ -88,12 +88,9 @@ instrHEIGHT = 900
 # size of the adapter + gaussian background
 bgSize = 2199 
 
-
-#%%#  Define parameters of the Gabor stim
-gaborSizeDVA = 3
-gaborSize15 = 100 # Size in pixels (15° ecc condition)
-gaborSFDVA = 4
-gaborSF = 0.1320 # Spatial frequency (cycles per pixels)
+#%%#  Define parameters of the Patch stim
+patchSizeDVA = 6
+patchSize = 300 # Size in pixels (15° ecc condition)
 
 # Where to present the stim (eccentricity)
 left_xpos15 = -502
@@ -102,7 +99,7 @@ up_ypos15 = 502
 down_ypos15 = -502
 
 
-gaborDuration = 0.25 # Presentation duration
+patchDuration = 0.25 # Presentation duration
 
 # Contrasts levels, just for the demo/training phase 
 contrastLevels = np.around(list(np.arange(0.1,1,0.1)),1)
@@ -212,6 +209,7 @@ win = visual.Window(monitor = OLED,
                     fullscr = True,
                     allowGUI = False)
 win.setMouseVisible(False)
+
 #%%#  Prepare stimuli
 
 # Create the fixation dot
@@ -228,17 +226,34 @@ fixation = visual.Circle(win, units = 'pix', radius = 5,
 instructions = visual.ImageStim(win, units = 'pix',
                                pos = (0,0), size = (instrWIDTH,instrHEIGHT)) 
 
-# 2 - Little gabor stimuli
+# 2 - Patch Stimuli
 ##########################
-# Create base object to host the different versions of the gabor stimulus
-lilGabor = visual.GratingStim(win, units = 'pix',
-                              #color = (0,0,0), #
-                              sf = gaborSF, mask = 'gauss')
+# Create base object to host the different versions of the patch stimulus
+patch1f = os.path.join(stimdir + 'patch1.bmp') 
+patch2f = os.path.join(stimdir + 'patch2.bmp') 
+patch3f = os.path.join(stimdir + 'patch3.bmp') 
+patch4f = os.path.join(stimdir + 'patch4.bmp') 
+patch5f = os.path.join(stimdir + 'patch5.bmp') 
+patch6f = os.path.join(stimdir + 'patch6.bmp') 
+patch7f = os.path.join(stimdir + 'patch7.bmp') 
+patch8f = os.path.join(stimdir + 'patch8.bmp') 
+patch9f = os.path.join(stimdir + 'patch9.bmp') 
+patch10f = os.path.join(stimdir + 'patch10.bmp') 
+
+patchSamples = [patch1f,patch2f,patch3f,patch4f,patch5f,patch6f,patch7f,patch8f,patch9f,patch10f]
+
+patch = visual.ImageStim(win,
+                         units = 'pix', pos = (0,0), 
+                         size = (patchSize,patchSize))
+
+
+
+
 
 # 4 - Little Bip sound
 ######################
-bleepf = os.path.join(stimdir + 'blip.wav')
-bleep = sound.Sound(value=bleepf) 
+# bleepf = os.path.join(stimdir + 'blip.wav')
+# bleep = sound.Sound(value=bleepf) 
 
 # 5 - Gaussian Gray background
 ##############################
@@ -349,208 +364,168 @@ def staircase(condition):
 # Draw the windows onto the screen
 win.flip()
 
-# %%#   Instructions:
-# "Welcome! Adujst the position of the seat..."
-# "This experiment aims to study how your brain..."
-# "During the experiment, you are requested to fixate..."
-# "On some trials, you will see clearly the stimulus... Let's try (horizontal)"
-
-# #=============================================================================
-for i in NBinstructions:
-    x = i+1
-    instr_fname = os.path.join(stimdir + 'instructions' + str(x) + '.bmp')
-    instructions.setImage(instr_fname)
-    instructions.draw()
-    win.flip() 
-    event.clearEvents()
-    keys = event.waitKeys(keyList=['space', 'q'])
-    if 'q' in keys:
-        win.close()
-        core.quit()
-    elif 'space' in keys :
-        continue
-win.flip(clearBuffer=True)
-core.wait(1)
-
-
-#%%#   Small practice
-# Let's try the task on the horizontal meridian, then on the vertical meridian
-
-if practice == 'yes':
-    for theMeridian in meridians:
-        if theMeridian == "meridianH":
-            sides = Hsides
-            yPos = 0 # horizontal meridian --> y = 0
-        else:
-            sides = Vsides
-            xPos = 0 # vertical meridian --> x = 0
-            
-            
-        for trial in range(6): # 6 demonstration trials
-          
-            # Draw fixation
-            gaussianGray.draw()
-            fixation.color = neutralColor
-            fixation.draw()
-            win.flip()
-            core.wait(2) # wait for 2 sec
-        
-            # Set gabor position            
-            theVF = random.choice(sides) 
-            if theVF == 'left':
-                xPos = left_xpos15
-            elif theVF == 'right':
-                xPos = right_xpos15    
-            elif theVF == 'up':
-                yPos = up_ypos15
-            else:
-                yPos = down_ypos15
-            lilGabor.pos = (xPos,yPos)
-        
-            # Set gabor orientation
-            theOri = random.choice(gaborOrientations)
-            if theOri == 'oriH':
-                ori = 90
-            else:
-                ori = 0    
-            lilGabor.ori = ori
-            
-            # Set gabor contrast 
-            theContrast = random.choice(contrastLevels)
-            lilGabor.contrast = theContrast
-            
-            # Set gabor size 
-            lilGabor.size = gaborSize15
-                   
-            # Draw stimulus
-            gaussianGray.draw()
-            lilGabor.draw()
-            fixation.draw()
-            win.flip()
-            core.wait(gaborDuration) 
-            gaussianGray.draw()
-            fixation.color = waitColor
-            fixation.draw()
-            win.flip()
-            event.clearEvents()
-            keys = event.waitKeys(maxWait=timelimit, keyList=['left', 'right', 'up', 'down', 'q'])
-        
-        
-            # If a key is pressed, take the response. If not, just remove the images from the screen    
-            if keys:
-                resp = keys[0]
-                                            
-                #At this point, there are still no keys pressed. So "if not keys" is definitely 
-                #going to be processed.
-                #After removing the images from the screen, still listening for a keypress. 
-                #Record the reaction time if a key is pressed.
-                                            
-            if not keys:
-                keys = event.waitKeys(maxWait = timelimit, keyList=['left', 'right', 'up', 'down', 'q'])
-                                                
-            # If the key is pressed analyze the keypress.
-            if keys:
-                if 'q' in keys:
-                    break
-                else:
-                    resp = keys[0]
-            else: 
-                resp = 'noResp'
-                
-            # Check accuracy
-            if resp == theVF:
-                acc = 1
-            elif resp == 'noResp':
-                acc = 0
-            else:
-                acc = 0
-            
-            # ISI ... (+ change fixation dot color depending on accuracy)
-            if acc == 1:
-                accColor = OKcolor
-            else:
-                accColor = notOKcolor
-                
-    
-            
-            gaussianGray.draw()
-            fixation.color = accColor
-            fixation.draw()
-            win.flip()
-            core.wait(0.5) # wait for 2 sec
-    
-    
-            # Save info about that trial
-            trainingtest_array.append('training')
-            trial_array.append(trial)
-            eccentricity_array.append('15dva')
-            xPos_array.append(xPos)
-            yPos_array.append(yPos)
-            meridian_array.append(theMeridian)
-            contrast_array.append(theContrast)
-            gabor_ori_array.append(theOri)
-            VF_array.append(theVF)
-            resp_array.append(resp)
-            accuracy_array.append(acc)
-    
-    
-            # If it is the 6th trial of the demo loop, go to instruction slide
-            # "Great, now let's try on the vertical axis"
-            if (trial == 5) & (theMeridian == "meridianH"):
-                instr_fname = os.path.join(stimdir + 'instructions5.bmp')
-                instructions.setImage(instr_fname)
-                instructions.draw()
-                win.flip() 
-                event.clearEvents()
-                keys = event.waitKeys(keyList=['space', 'q'])
-                if 'q' in keys:
-                    win.close()
-                    core.quit()
-                elif 'space' in keys :
-                    continue
-
-
-
-
-
-# #%%#  Save info about the training phase
-
-# if not os.path.isdir(datadir):
-#     os.makedirs(datadir)
-# data_fname = 'training_' + exp_name + '_' + exp_info['subj_ID']+ '_session'+ exp_info['session'] + '_' + exp_info['date'] + '.csv'
-# data_fname = os.path.join(datadir, data_fname)
-
-# subj_ID = exp_info['subj_ID']
-# exp_date = exp_info['date']
-
-# output_file = pd.DataFrame({'subj_ID': subject_array,
-#                             'exp_name': exp_name_array,
-#                             'date': date_array,
-#                             'session': session_array,
-#                             'training-test': trainingtest_array,
-#                             'trial': trial_array,
-#                             'eccentricity': eccentricity_array,
-#                             'xPosition': xPos_array,
-#                             'yPosition': yPos_array,
-#                             'meridian': meridian_array,
-#                             'contrast': contrast_array,
-#                             'ori': gabor_ori_array,
-#                             'VF': VF_array,
-#                             'resp': resp_array,
-#                             'accuracy': accuracy_array
-#                             })
-
-# # save the csv file + pickle
-
-# # CSV file
-# output_file.to_csv(data_fname, index = False)
-
-# # # Pickle
-# # # with open(data_fname + ".pkl", 'wb') as f:
-# # #     pickle.dump(output_file, f, pickle.HIGHEST_PROTOCOL)
-# # print('FILES SAVED')
-
-
+# =============================================================================
+# # %%#   Instructions:
+# # "Welcome! Adujst the position of the seat..."
+# # "This experiment aims to study how your brain..."
+# # "During the experiment, you are requested to fixate..."
+# # "On some trials, you will see clearly the stimulus... Let's try (horizontal)"
+# 
+# # #=============================================================================
+# for i in NBinstructions:
+#     x = i+1
+#     instr_fname = os.path.join(stimdir + 'instructions' + str(x) + '.bmp')
+#     instructions.setImage(instr_fname)
+#     instructions.draw()
+#     win.flip() 
+#     event.clearEvents()
+#     keys = event.waitKeys(keyList=['space', 'q'])
+#     if 'q' in keys:
+#         win.close()
+#         core.quit()
+#     elif 'space' in keys :
+#         continue
+# win.flip(clearBuffer=True)
+# core.wait(1)
+# 
+# 
+# #%%#   Small practice
+# # Let's try the task on the horizontal meridian, then on the vertical meridian
+# 
+# if practice == 'yes':
+#     for theMeridian in meridians:
+#         if theMeridian == "meridianH":
+#             sides = Hsides
+#             yPos = 0 # horizontal meridian --> y = 0
+#         else:
+#             sides = Vsides
+#             xPos = 0 # vertical meridian --> x = 0
+#             
+#             
+#         for trial in range(6): # 6 demonstration trials
+#           
+#             # Draw fixation
+#             gaussianGray.draw()
+#             fixation.color = neutralColor
+#             fixation.draw()
+#             win.flip()
+#             core.wait(2) # wait for 2 sec
+#         
+#             # Set gabor position            
+#             theVF = random.choice(sides) 
+#             if theVF == 'left':
+#                 xPos = left_xpos15
+#             elif theVF == 'right':
+#                 xPos = right_xpos15    
+#             elif theVF == 'up':
+#                 yPos = up_ypos15
+#             else:
+#                 yPos = down_ypos15
+#             lilGabor.pos = (xPos,yPos)
+#         
+#             # Set gabor orientation
+#             theOri = random.choice(gaborOrientations)
+#             if theOri == 'oriH':
+#                 ori = 90
+#             else:
+#                 ori = 0    
+#             lilGabor.ori = ori
+#             
+#             # Set gabor contrast 
+#             theContrast = random.choice(contrastLevels)
+#             lilGabor.contrast = theContrast
+#             
+#             # Set gabor size 
+#             lilGabor.size = gaborSize15
+#                    
+#             # Draw stimulus
+#             gaussianGray.draw()
+#             lilGabor.draw()
+#             fixation.draw()
+#             win.flip()
+#             core.wait(patchDuration) 
+#             gaussianGray.draw()
+#             fixation.color = waitColor
+#             fixation.draw()
+#             win.flip()
+#             event.clearEvents()
+#             keys = event.waitKeys(maxWait=timelimit, keyList=['left', 'right', 'up', 'down', 'q'])
+#         
+#         
+#             # If a key is pressed, take the response. If not, just remove the images from the screen    
+#             if keys:
+#                 resp = keys[0]
+#                                             
+#                 #At this point, there are still no keys pressed. So "if not keys" is definitely 
+#                 #going to be processed.
+#                 #After removing the images from the screen, still listening for a keypress. 
+#                 #Record the reaction time if a key is pressed.
+#                                             
+#             if not keys:
+#                 keys = event.waitKeys(maxWait = timelimit, keyList=['left', 'right', 'up', 'down', 'q'])
+#                                                 
+#             # If the key is pressed analyze the keypress.
+#             if keys:
+#                 if 'q' in keys:
+#                     break
+#                 else:
+#                     resp = keys[0]
+#             else: 
+#                 resp = 'noResp'
+#                 
+#             # Check accuracy
+#             if resp == theVF:
+#                 acc = 1
+#             elif resp == 'noResp':
+#                 acc = 0
+#             else:
+#                 acc = 0
+#             
+#             # ISI ... (+ change fixation dot color depending on accuracy)
+#             if acc == 1:
+#                 accColor = OKcolor
+#             else:
+#                 accColor = notOKcolor
+#                 
+#     
+#             
+#             gaussianGray.draw()
+#             fixation.color = accColor
+#             fixation.draw()
+#             win.flip()
+#             core.wait(0.5) # wait for 2 sec
+#     
+#     
+#             # Save info about that trial
+#             trainingtest_array.append('training')
+#             trial_array.append(trial)
+#             eccentricity_array.append('15dva')
+#             xPos_array.append(xPos)
+#             yPos_array.append(yPos)
+#             meridian_array.append(theMeridian)
+#             contrast_array.append(theContrast)
+#             gabor_ori_array.append(theOri)
+#             VF_array.append(theVF)
+#             resp_array.append(resp)
+#             accuracy_array.append(acc)
+#     
+#     
+#             # If it is the 6th trial of the demo loop, go to instruction slide
+#             # "Great, now let's try on the vertical axis"
+#             if (trial == 5) & (theMeridian == "meridianH"):
+#                 instr_fname = os.path.join(stimdir + 'instructions5.bmp')
+#                 instructions.setImage(instr_fname)
+#                 instructions.draw()
+#                 win.flip() 
+#                 event.clearEvents()
+#                 keys = event.waitKeys(keyList=['space', 'q'])
+#                 if 'q' in keys:
+#                     win.close()
+#                     core.quit()
+#                 elif 'space' in keys :
+#                     continue
+# 
+# =============================================================================
 
 
 
@@ -579,17 +554,19 @@ contrastRule_array = []
 #%%#  Test loop
 
 
-# instruction: "Now do the task..."
-instr_fname = os.path.join(stimdir + 'instructions7.bmp')
-instructions.setImage(instr_fname)
-instructions.draw()
-win.flip() 
-event.clearEvents()
-keys = event.waitKeys(keyList=['space', 'q'])
-if 'q' in keys:
-    win.close()
-    core.quit()
-win.flip() 
+# =============================================================================
+# # instruction: "Now do the task..."
+# instr_fname = os.path.join(stimdir + 'instructions7.bmp')
+# instructions.setImage(instr_fname)
+# instructions.draw()
+# win.flip() 
+# event.clearEvents()
+# keys = event.waitKeys(keyList=['space', 'q'])
+# if 'q' in keys:
+#     win.close()
+#     core.quit()
+# win.flip() 
+# =============================================================================
             
 
 
@@ -613,14 +590,16 @@ for thisTrial in range(len(triallist)):
     theOri = theTrial['ori']
     thisCond = theVF + '_' + theOri
     trial_count_dict[thisCond] = trial_count_dict[thisCond] + 1
-    gaborSize = (gaborSize15,gaborSize15)
     if (theVF == 'left') or (theVF == 'right'):
         theMeridian = "meridianH"
     else:
         theMeridian  = "meridianV"
 
-
-    # set gabor position depending on the condition
+    # randomly choose patch sample
+    patchsample = random.choice(patchSamples)
+    patch.setImage(patchsample)
+    
+    # set patch position depending on the condition
     if (theVF == 'left'):
         yPos = 0 # horizontal meridian --> y = 0
         xPos = left_xpos15
@@ -633,20 +612,18 @@ for thisTrial in range(len(triallist)):
     elif (theVF == 'down'):
         xPos = 0 # vertical meridian --> x = 0
         yPos = down_ypos15
-    lilGabor.pos = (xPos,yPos)
+    patch.pos = (xPos,yPos)
 
-    # Set gabor orientation
+    # Set patch orientation
     if theOri == 'oriH':
         ori = 90
     else:
         ori = 0    
-    lilGabor.ori = ori
+    patch.ori = ori
     
-    # Set gabor orientation
-    lilGabor.size = gaborSize
+
         
-        
-    # Set gabor contrast 
+    # Set patch contrast 
     # either pick within higher contrast range
     if (trial_count_dict[thisCond]%5 == 0):
 
@@ -654,36 +631,36 @@ for thisTrial in range(len(triallist)):
             if theVF == 'left':
                 zecontrast = highContrastLevels[ZH_left_oriH]
                 ZH_left_oriH = ZH_left_oriH + 1
-                lilGabor.contrast = zecontrast    
+                patch.contrast = zecontrast    
             if theVF == 'right':
                 zecontrast = highContrastLevels[ZH_right_oriH]
                 ZH_right_oriH = ZH_right_oriH + 1
-                lilGabor.contrast = zecontrast
+                patch.contrast = zecontrast
             if theVF == 'up':
                 zecontrast = highContrastLevels[ZH_up_oriH]
                 ZH_up_oriH = ZH_up_oriH + 1
-                lilGabor.contrast = zecontrast               
+                patch.contrast = zecontrast               
             if theVF == 'down':
                 zecontrast = highContrastLevels[ZH_down_oriH]
                 ZH_down_oriH = ZH_down_oriH + 1
-                lilGabor.contrast = zecontrast
+                patch.contrast = zecontrast
         elif theOri == 'oriV':
             if theVF == 'left':
                 zecontrast = highContrastLevels[ZH_left_oriV]
                 ZH_left_oriV = ZH_left_oriV + 1
-                lilGabor.contrast = zecontrast    
+                patch.contrast = zecontrast    
             if theVF == 'right':
                 zecontrast = highContrastLevels[ZH_right_oriV]
                 ZH_right_oriV = ZH_right_oriV + 1
-                lilGabor.contrast = zecontrast
+                patch.contrast = zecontrast
             if theVF == 'up':
                 zecontrast = highContrastLevels[ZH_up_oriV]
                 ZH_up_oriV = ZH_up_oriV + 1
-                lilGabor.contrast = zecontrast               
+                patch.contrast = zecontrast               
             if theVF == 'down':
                 zecontrast = highContrastLevels[ZH_down_oriV]
                 ZH_down_oriV = ZH_down_oriV + 1
-                lilGabor.contrast = zecontrast  
+                patch.contrast = zecontrast  
                 
         contrast_array.append(zecontrast)
         contrastRule_array.append("highCont")  
@@ -691,7 +668,7 @@ for thisTrial in range(len(triallist)):
     # or use staircase rules      
     else:
         staircase(thisCond)
-        lilGabor.contrast = abs(contrast_dict[thisCond])            
+        patch.contrast = abs(contrast_dict[thisCond])            
         contrast_array.append(contrast_dict[thisCond])
         contrastRule_array.append("staircase")
 
@@ -704,10 +681,10 @@ for thisTrial in range(len(triallist)):
         
     # Draw stimulus
     gaussianGray.draw()
-    lilGabor.draw()
+    patch.draw()
     fixation.draw()
     win.flip()
-    core.wait(gaborDuration) 
+    core.wait(patchDuration) 
     gaussianGray.draw()
     fixation.color = waitColor
     fixation.draw()
