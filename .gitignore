@@ -1,0 +1,5 @@
+/...analyses
+**/*.bmp #ignore all .bmp files
+followup.pptx
+**/*.jpg
+/...stimuli/filter1.mat
