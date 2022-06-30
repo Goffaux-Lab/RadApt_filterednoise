@@ -269,49 +269,21 @@ goContrast = 0.2
 #%%#  Prepare Staircases for the test loop
 
 # initializes some dictionaries used by the staircase() function
-thisCond = [] 
-contrast_dict = {
-    'left_oriH': 0,
-    'left_oriV': 0,
-    'right_oriH': 0,
-    'right_oriV': 0,
-    'up_oriH': 0,
-    'up_oriV': 0,
-    'down_oriH': 0,
-    'down_oriV': 0
-    }
-reversal_dict = {
-    'left_oriH': 0,
-    'left_oriV': 0,
-    'right_oriH': 0,
-    'right_oriV': 0,
-    'up_oriH': 0,
-    'up_oriV': 0,
-    'down_oriH': 0,
-    'down_oriV': 0
-    }
-acc_count_dict = {
-    'left_oriH': 0,
-    'left_oriV': 0,
-    'right_oriH': 0,
-    'right_oriV': 0,
-    'up_oriH': 0,
-    'up_oriV': 0,
-    'down_oriH': 0,
-    'down_oriV': 0
-    }
-trial_count_dict = {
-    'left_oriH': 0,
-    'left_oriV': 0,
-    'right_oriH': 0,
-    'right_oriV': 0,
-    'up_oriH': 0,
-    'up_oriV': 0,
-    'down_oriH': 0,
-    'down_oriV': 0
-    }
+position_names = [ 'left_oriH', 'left_oriV',
+                  'right_oriH', 'right_oriV',
+                  'up_oriH', 'up_oriV',
+                  'down_oriH', 'down_oriV'
+                 ]
+
+value = 0
+
+contrast_dict    = {key:value for key in position_names}
+reversal_dict    = {key:value for key in position_names}
+acc_count_dict   = {key:value for key in position_names}
+trial_count_dict = {key:value for key in position_names}
 
 
+thisCond = []
 # ###  Define staircase function
 def staircase(condition):
     # we need to work with the global variables (so that they can be used 
