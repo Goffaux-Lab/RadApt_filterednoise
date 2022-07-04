@@ -1,4 +1,6 @@
 /...analyses
+/...experiment/data
+/...experiment/stim
 **/*.bmp 
 followup.pptx
 **/*.jpg
