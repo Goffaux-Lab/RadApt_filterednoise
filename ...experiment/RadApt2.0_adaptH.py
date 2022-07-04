@@ -397,86 +397,19 @@ def drawAdapter():
 Prepare staircases
 '''
 thisCond = [] 
-contrast_dict = {
-    'adapterISO_left_oriH': 0,
-    'adapterISO_left_oriV': 0,
-    'adapterISO_right_oriH': 0,
-    'adapterISO_right_oriV': 0,
-    'adapterISO_up_oriH': 0,
-    'adapterISO_up_oriV': 0,
-    'adapterISO_down_oriH': 0,
-    'adapterISO_down_oriV': 0,
-    'adapterH_left_oriH': 0,
-    'adapterH_left_oriV': 0,
-    'adapterH_right_oriH': 0,
-    'adapterH_right_oriV': 0,
-    'adapterH_up_oriH': 0,
-    'adapterH_up_oriV': 0,
-    'adapterH_down_oriH': 0,
-    'adapterH_down_oriV': 0,
-    'adapterV_left_oriH': 0,
-    'adapterV_left_oriV': 0,
-    'adapterV_right_oriH': 0,
-    'adapterV_right_oriV': 0,
-    'adapterV_up_oriH': 0,
-    'adapterV_up_oriV': 0,
-    'adapterV_down_oriH': 0,
-    'adapterV_down_oriV': 0
-    }
-acc_count_dict = {
-    'adapterISO_left_oriH': 0,
-    'adapterISO_left_oriV': 0,
-    'adapterISO_right_oriH': 0,
-    'adapterISO_right_oriV': 0,
-    'adapterISO_up_oriH': 0,
-    'adapterISO_up_oriV': 0,
-    'adapterISO_down_oriH': 0,
-    'adapterISO_down_oriV': 0,
-    'adapterH_left_oriH': 0,
-    'adapterH_left_oriV': 0,
-    'adapterH_right_oriH': 0,
-    'adapterH_right_oriV': 0,
-    'adapterH_up_oriH': 0,
-    'adapterH_up_oriV': 0,
-    'adapterH_down_oriH': 0,
-    'adapterH_down_oriV': 0,
-    'adapterV_left_oriH': 0,
-    'adapterV_left_oriV': 0,
-    'adapterV_right_oriH': 0,
-    'adapterV_right_oriV': 0,
-    'adapterV_up_oriH': 0,
-    'adapterV_up_oriV': 0,
-    'adapterV_down_oriH': 0,
-    'adapterV_down_oriV': 0
-    }
-trial_count_dict = {
-    'adapterISO_left_oriH': 0,
-    'adapterISO_left_oriV': 0,
-    'adapterISO_right_oriH': 0,
-    'adapterISO_right_oriV': 0,
-    'adapterISO_up_oriH': 0,
-    'adapterISO_up_oriV': 0,
-    'adapterISO_down_oriH': 0,
-    'adapterISO_down_oriV': 0,
-    'adapterH_left_oriH': 0,
-    'adapterH_left_oriV': 0,
-    'adapterH_right_oriH': 0,
-    'adapterH_right_oriV': 0,
-    'adapterH_up_oriH': 0,
-    'adapterH_up_oriV': 0,
-    'adapterH_down_oriH': 0,
-    'adapterH_down_oriV': 0,
-    'adapterV_left_oriH': 0,
-    'adapterV_left_oriV': 0,
-    'adapterV_right_oriH': 0,
-    'adapterV_right_oriV': 0,
-    'adapterV_up_oriH': 0,
-    'adapterV_up_oriV': 0,
-    'adapterV_down_oriH': 0,
-    'adapterV_down_oriV': 0
-    }
-        
-    
+condition_names = ['adapterH_left_oriH', 'adapterH_left_oriV',
+                  'adapterH_right_oriH', 'adapterH_right_oriV',
+                  'adapterH_up_oriH', 'adapterH_up_oriV',
+                  'adapterH_down_oriH', 'adapterH_down_oriV'
+                  ]
+
+value = 0
+
+contrast_dict    = {key:value for key in condition_names}
+acc_count_dict   = {key:value for key in condition_names}
+trial_count_dict = {key:value for key in condition_names}    
+
+
     
 # ###  Define staircase function
 def staircase(condition):
@@ -487,7 +420,6 @@ def staircase(condition):
     global acc_count_dict
     global trial_count_dict
   
-
     # 1st trial: set the initial contrast value as the value defined in maxContrast
     if trial_count_dict[thisCond] == 1: 
         contrast_dict[thisCond] = contrast_dict[thisCond] + maxContrast

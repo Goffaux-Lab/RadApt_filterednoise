@@ -409,7 +409,7 @@ maxContrast = 0.05
 
 # initializes some dictionaries used by the staircase() function
 thisCond = [] 
-position_names = [ 'left_oriH', 'left_oriV',
+condition_names = ['left_oriH', 'left_oriV',
                   'right_oriH', 'right_oriV',
                   'up_oriH', 'up_oriV',
                   'down_oriH', 'down_oriV'
@@ -417,9 +417,9 @@ position_names = [ 'left_oriH', 'left_oriV',
 
 value = 0
 
-contrast_dict    = {key:value for key in position_names}
-acc_count_dict   = {key:value for key in position_names}
-trial_count_dict = {key:value for key in position_names}
+contrast_dict    = {key:value for key in condition_names}
+acc_count_dict   = {key:value for key in condition_names}
+trial_count_dict = {key:value for key in condition_names}
 
 # ###  Define staircase function
 def staircase(condition):
