@@ -10,3 +10,5 @@ Includes:
 - **RADAPT_baselineRB_noiz.py**   >>> experiment
 - **RADAPT_gratings_par.m**       >>> octave/matlab code to calculate the presentation parameters (size, eccentricity, etc.)
   
+
+Stimuli (bitmap images) can be found in this [Open Science Framework project](https://osf.io/3kxp7/)
