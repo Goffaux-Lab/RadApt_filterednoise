@@ -32,9 +32,9 @@ practice = 'no' #whether to do the practice (yes or no)
 print("Current working directory: {0}".format(os.getcwd()))
 
 # Change the current working directory HERE
-cwd = os.chdir(r'C:\Users\alexi\OneDrive - UCL\Rprojects\2022_RadApt_filterednoise\...experiment')
+# cwd = os.chdir(r'C:\Users\alexi\OneDrive - UCL\Rprojects\2022_RadApt_filterednoise\...experiment')
 # cwd = os.chdir(r'C:\Users\humanvisionlab\Documents\dossierpartageubuntu\Pauline\RadApt_filterednoise\...experiment')
-#cmd = os.chdir(r'C:\Users\arouxsibilon\OneDrive - UCL\Rprojects\2022_RadApt_filterednoise\...experiment')
+cmd = os.chdir(r'C:\Users\arouxsibilon\OneDrive - UCL\Rprojects\2022_RadApt_filterednoise\...experiment')
 
 print("Current working directory: {0}".format(os.getcwd()))
 cwd = format(os.getcwd())
@@ -346,7 +346,7 @@ fixation = visual.GratingStim(win, tex=fix, mask='gauss', units='pix', size=20  
 instructions = visual.ImageStim(win, units = 'pix',
                                pos = (0,0), size = (instrWIDTH,instrHEIGHT)) 
 
-# 2 - Patch Stimuli
+# Patch Stimuli
 ###################
 # Create base object to host the different versions of the patch stimulus
 patch1f = os.path.join(stimdir + 'patch1.bmp') 
