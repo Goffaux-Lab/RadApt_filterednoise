@@ -87,6 +87,9 @@ nTrialsPerStaircase = 2
 # max time (in s) to wait for a response
 timelimit = 10 
 
+# presentation rate of the adapter
+presRate = 60 #in hertz (60Hz = 60 image per sec. = OLED screen's refresh rate)
+
 # fixation colors
 neutralColor = (-1, -1, -1)
 waitColor = (-0.2, -0.2, -0.2) #for when waiting for a response
@@ -330,6 +333,9 @@ win = visual.Window(monitor = OLED,
                     fullscr = True,
                     allowGUI = False)
 win.setMouseVisible(False)
+# refreshrate = win.getActualFrameRate(nIdentical=10, nMaxFrames=10, nWarmUpFrames=10, threshold=1)
+# win.close()
+
 
 # Fixation dot
 #########################
@@ -379,19 +385,75 @@ adaptHost = visual.ImageStim(win, units = 'pix', pos = (0,0),
                             size = (adaptSize,adaptSize))
 
 # Define function that draws the different images for the HORIZONTAL adapter
+# =============================================================================
+# def drawAdapter():
+#     for i in NBnoiseSamples:
+#         x = i+1
+#         fname = os.path.join(stimdir + 'sample' + str(x) + '.bmp')
+#         adaptHost.setImage(fname)
+#         adaptHost.ori = horizOri
+#         adaptHost.draw()
+#         fixation.draw()
+#         win.flip()
+#         core.wait(0.1)
+# =============================================================================
+
+
+adaptf1 = os.path.join(stimdir + 'sample1.bmp')
+adaptf2 = os.path.join(stimdir + 'sample2.bmp')
+adaptf3 = os.path.join(stimdir + 'sample3.bmp')
+adaptf4 = os.path.join(stimdir + 'sample4.bmp')
+adaptf5 = os.path.join(stimdir + 'sample5.bmp')
+adaptf6 = os.path.join(stimdir + 'sample6.bmp')
+adaptf7 = os.path.join(stimdir + 'sample7.bmp')
+adaptf8 = os.path.join(stimdir + 'sample8.bmp')
+adaptf9 = os.path.join(stimdir + 'sample9.bmp')
+adaptf10 = os.path.join(stimdir + 'sample10.bmp')
+
 def drawAdapter():
-    for i in NBnoiseSamples:
-        x = i+1
-        fname = os.path.join(stimdir + 'sample' + str(x) + '.bmp')
-        adaptHost.setImage(fname)
-        adaptHost.ori = horizOri
+    adaptHost.ori = horizOri
+    for i in range(int(presRate/10)):
+        adaptHost.setImage(adaptf1)
         adaptHost.draw()
         fixation.draw()
         win.flip()
-        core.wait(0.1)
-    
+        adaptHost.setImage(adaptf2)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf3)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf4)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf5)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf6)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf7)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf8)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf9)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
+        adaptHost.setImage(adaptf10)
+        adaptHost.draw()
+        fixation.draw()
+        win.flip()
         
-
 #%%#
 '''
 Prepare staircases
