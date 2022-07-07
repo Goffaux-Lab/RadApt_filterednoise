@@ -73,9 +73,9 @@ realH           = dd*tand(dvaH./2);                  % gabor height in cm = 2dta
 realWpix        = round(realW*ScreenWidthpix/ScreenWidthCm) % gabor width in pixels
 realHpix        = round(realH*ScreenWidthpix/ScreenWidthCm) % gabor height in pixels
 
-% Calculate Gabor size in pixels for Gabor size = 3°
-dvaW            = 3;                                 % angular size (width) 
-dvaH            = 3;                                 % angular size (height) 
+% Calculate Gabor size in pixels for Gabor size = 6°
+dvaW            = 6;                                 % angular size (width) 
+dvaH            = 6;                                 % angular size (height) 
 realW           = dd*tand(dvaW./2);                  % gabor width in cm = 2dtan(alpha/2)
 realH           = dd*tand(dvaH./2);                  % gabor height in cm = 2dtan(alpha/2)
 realWpix        = round(realW*ScreenWidthpix/ScreenWidthCm) % gabor width in pixels
