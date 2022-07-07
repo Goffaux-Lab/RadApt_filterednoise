@@ -1,0 +1,5 @@
+*.bmp #ignore all .bmp files
+*.jpg
+filter1.mat
+MakeCosineWindow.m
+DoLogGabor.m

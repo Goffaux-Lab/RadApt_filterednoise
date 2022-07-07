@@ -1,0 +1,11 @@
+/...analyses
+/...experiment/data
+/...experiment/stim
+/...experiment/THFL3004
+**/*.bmp 
+followup.pptx
+**/*.jpg
+/...stimuli/filter1.mat
+/...stimuli/MakeCosineWindow.m
+/...stimuli/DoLogGabor.m
+.Rproj.user
